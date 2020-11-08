@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  data: UPost[];
+  data: any[];
   sorted: UPost[];
   featuredPost: any
   isFetching: boolean = false
@@ -34,10 +34,27 @@ export class HomeComponent implements OnInit {
     this.acrud.getAllPost().then((x: any) => {
       this.isFetching = false
       this.data = x
+      this.getPostBYCategory(this.data)
       this.sortDesecending(this.data)
 
     })
   }
+  getPostBYCategory(post: any) {
+  let category = localStorage.getItem("profiledata")
+  let post1:any=[]
+
+  for(let i in post){
+    if(post[i].category == category){
+      post1.push(post[i])
+    }
+    }
+    
+    this.data=post1
+    console.log(post1)
+
+
+  }
+
   sortDesecending(data) {
     this.sorted = data.sort((a: any, b: any) =>
       <any>new Date(b.created_date) - <any>new Date(a.created_date)

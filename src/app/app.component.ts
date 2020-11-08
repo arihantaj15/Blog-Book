@@ -77,9 +77,13 @@ export class AppComponent implements OnInit {
 
             this.ProfieData = x[0]
             if (this.ProfieData) {
-              this.isprofileSet = this.ProfieData.isProfileSet
+              console.log(this.ProfieData)
+              this.isprofileSet = !!this.ProfieData
               this.username = this.ProfieData.uname
-
+              let pdata:any =this.ProfieData
+              localStorage.setItem("profiledata", pdata.category)
+              
+              
             }
 
           }

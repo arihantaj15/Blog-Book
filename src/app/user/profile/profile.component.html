@@ -64,7 +64,20 @@
                     <textarea class="form-control" rows="5" id="comment" formControlName="desc"></textarea>
 
                 </div>
+                <div class="form-group">
+                    <label for="sel1">Category list:</label>
+                    <select class="form-control" formControlName="category" #t (change)="onChange(t.value)">
+                        <option *ngFor="let value of values">{{value}} </option>
+                    </select>
 
+                    <ng-container *ngFor="let validation of validation_messages.category">
+                        <div class="help-block has-error" *ngIf="ProfileForm.get( 'category').hasError(validation.type) && (ProfileForm.get( 'category').dirty || ProfileForm.get( 'category').touched)">
+                            {{validation.message}}</div>
+                    </ng-container>
+
+
+                </div>
+               
                 <div class="row submit-button-container">
                     <div class="col-md-4">
                         <button class="btn btn-primary submit-button" color="primary" type="submit" [disabled]="!ProfileForm.valid || erroUsername">Submit</button>

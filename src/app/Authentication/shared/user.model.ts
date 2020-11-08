@@ -22,6 +22,7 @@ export class Profile {
   imgurl: string;
   name: string;
   uname: string;
+  category?: string;
   isProfileSet?: boolean
 }
 

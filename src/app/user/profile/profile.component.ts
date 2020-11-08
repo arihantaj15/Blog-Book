@@ -14,6 +14,9 @@ import { Profile } from 'src/app/Authentication/shared/user.model';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  values = ['Happy', 'Sad', 'Success', 'Failure', 'Hurt', 'Study', 'Educational', 'Portfolio', 'Other'];
+  selected = 'Happy'
+  
 
   imageSrc: string | ArrayBuffer;
   downloadURL: string;
@@ -21,6 +24,11 @@ export class ProfileComponent implements OnInit {
   uploadPercent: Observable<number>;
 
   ProfileForm: FormGroup;
+  onChange(value) {
+
+    this.selected = value;
+
+  }
 
   validation_messages = {
     'uname': [
@@ -32,7 +40,12 @@ export class ProfileComponent implements OnInit {
     ],
     'name': [
       { type: 'required', message: 'Name is required.' },
+    ],
+    'category': [
+      { type: 'required', message: 'Category is required.' },
     ]
+   
+
   };
   href: string;
   profileReturned: any;
@@ -113,9 +126,10 @@ export class ProfileComponent implements OnInit {
     this.acrud.getProfile().subscribe(d => {
       let x = this.acrud.seprate(d)
       this.profileReturned = x[0]
-
+      console.log(this.profileReturned)
       if (this.usernamParam !== this.profileReturned.uname) {
         this.router.navigate(["home"])
+        console.log("hello")
       }
       this.SetProfileForm(x[0])
 
@@ -139,6 +153,7 @@ export class ProfileComponent implements OnInit {
       imgurl: ['', Validators.required],
       email: [this.email, Validators.required],
       desc: [''],
+      category: [this.selected, Validators.required],
       name: ['', Validators.required],
       uname: ['', Validators.required,],
 
@@ -182,6 +197,7 @@ export class ProfileComponent implements OnInit {
   }
 
   onSubmit(value: Profile) {
+    //localStorage.setItem("profiledata",value.category)
     if (this.x[2] && this.x[3] == "editProfile") {
       this.acrud.UpdateProfile(value, this.profileReturned, this.downloadURL)
       this.ProfileForm.reset();
@@ -199,9 +215,9 @@ export class ProfileComponent implements OnInit {
   redirectTo(url: any) {
 
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
-      this.router.navigate([url]));
-    setTimeout(() => {
-      window.location.href = "";
-    }, 1000)
-  }
+       this.router.navigate([url]));
+     setTimeout(() => {
+       window.location.href = "";
+     }, 1000)
+   }
 }
